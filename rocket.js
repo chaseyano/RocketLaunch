@@ -9,6 +9,10 @@ class Rocket {
     ROCKET_WIDTH = 75;
     ROCKET_HEIGHT = 300;
 
+    STATUS_TEXT_X = 50;
+    STATUS_TEXT_Y = 775;
+
+
     constructor(canvasId, material, fuelType) {
         this.rocketParts = []; // Array to hold references to rocket parts
 
@@ -247,14 +251,14 @@ this.buy = function(item) {
     stopSimulation() {
         this.watch.stop();
         this.inFlight = false;
-        this.statusText.position = new paper.Point(this.canvas.width / 2, this.canvas.height - 150);
+        this.statusText.position = new paper.Point(this.STATUS_TEXT_X, this.STATUS_TEXT_Y);
         this.drawRectangle('grey'); // Grey rectangle for 'STOPPED'
     }
 
     setPreLaunch() {
         this.statusText.content = 'PRE LAUNCH';
-        this.statusText.position = new paper.Point(50, 775);
-s
+        this.statusText.position = new paper.Point(this.STATUS_TEXT_X, this.STATUS_TEXT_Y);
+
         // this.statusText.position = new paper.Point(this.canvas.width / 2, this.canvas.height / 2);
         this.drawRocket(this.canvas.width / 2 - (this.ROCKET_WIDTH / 2) , this.canvas.height - this.ROCKET_HEIGHT); 
     }
@@ -271,7 +275,7 @@ s
     
         // Update the status text
         this.statusText.content = 'IS LAUNCHING';
-        this.statusText.position = new paper.Point(this.canvas.width / 2, this.canvas.height - 150);
+        this.statusText.position = new paper.Point(this.STATUS_TEXT_X, this.STATUS_TEXT_Y);
         this.isLaunchingAnimationPlaying = true;
     
         paper.view.onFrame = (event) => {
@@ -303,7 +307,8 @@ s
         }
         this.isLaunchingAnimationPlaying = false;
         this.statusText.content = 'IN FLIGHT';
-        this.statusText.position = new paper.Point(this.canvas.width / 2, this.canvas.height - 150);
+        this.statusText.position = new paper.Point(this.STATUS_TEXT_X, this.STATUS_TEXT_Y);
+        (this.canvas.width / 2, this.canvas.height - 150);
         this.drawRocket(this.canvas.width / 2 - (this.ROCKET_WIDTH / 2) , this.canvas.height / 2 - this.ROCKET_HEIGHT); 
     }
 
@@ -311,7 +316,7 @@ s
         this.clearRocket();
 
         this.statusText.content = 'WIN';
-        this.statusText.position = new paper.Point(this.canvas.width / 2, this.canvas.height - 150);
+        this.statusText.position = new paper.Point(this.STATUS_TEXT_X, this.STATUS_TEXT_Y);
         this.drawRectangle('gold'); // Gold rectangle for 'WIN'
     }
 
@@ -319,7 +324,7 @@ s
         this.clearRocket();
 
         this.statusText.content = 'LOSS';
-        this.statusText.position = new paper.Point(this.canvas.width / 2, this.canvas.height - 150);
+        this.statusText.position = new paper.Point(this.STATUS_TEXT_X, this.STATUS_TEXT_Y);
         this.drawRectangle('red'); // Red rectangle for 'LOSS'
     }
     launch() {
