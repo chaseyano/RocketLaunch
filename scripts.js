@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function resizeCanvas() {
         const canvasElement = document.getElementById('myCanvas');
 
-        canvasElement.width = window.innerWidth;
+        canvasElement.width = window.innerWidth / 2;
         canvasElement.height = window.innerHeight - 50; // leaving 50px gap at the bottom for UI elements
         const myRocket = new Rocket('myCanvas', 'titanium', 'hydrogen');
     }
@@ -19,7 +19,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // Resize canvas on window resize
     window.addEventListener('resize', resizeCanvas);
 
-    const myRocket = new Rocket('myCanvas', 'titanium', 'hydrogen'); // this is just to clear the screen.
 
     document.getElementById('launchButton').addEventListener('click', () => {
         if (getUpdatedBudget() >= 0 && areAllSelected()) {

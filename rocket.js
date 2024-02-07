@@ -38,7 +38,7 @@ class Rocket {
         this.context.fillStyle = 'blue';
         this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
 
-        this.statusText = new paper.PointText(new paper.Point(this.canvas.width / 2, this.canvas.height - 150));
+        this.statusText = new paper.PointText(new paper.Point(0, this.canvas.height - 150));
         this.statusText.content = 'Pre-launch';
         this.statusText.fillColor = 'black'; 
 
@@ -253,7 +253,9 @@ this.buy = function(item) {
 
     setPreLaunch() {
         this.statusText.content = 'PRE LAUNCH';
-        this.statusText.position = new paper.Point(this.canvas.width / 2, this.canvas.height / 2);
+        this.statusText.position = new paper.Point(50, 775);
+s
+        // this.statusText.position = new paper.Point(this.canvas.width / 2, this.canvas.height / 2);
         this.drawRocket(this.canvas.width / 2 - (this.ROCKET_WIDTH / 2) , this.canvas.height - this.ROCKET_HEIGHT); 
     }
 
