@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head> 
+        <link rel="stylesheet" href="style.css">
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Basic Paper.js Example</title>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/paper.js/0.12.14/paper-full.min.js"></script>
+
+
+    </head>
+    <body>
+        <canvas id="myCanvas" resize></canvas>
+        <div id="myModal" class="modal">
+            <!-- Modal content -->
+            <div class="modal-content">
+              <span class="close">&times;</span>
+              <p id="modalText">Some text in the Modal..</p>
+            </div>
+          </div>
+        <div id="controlPanel">
+            <div>
+                <h3 id="budgetDisplay">Money: <span id="budgetAmount">100</span></h3>
+                <h3 id="materialWeightDisplay">Material Weight: <span id="materialWeight">0</span></h3>
+                <h3 id="fuelWeightDisplay">Fuel Weight: <span id="fuelWeight">0</span></h3>
+                <h3 id="materialWeightDisplay">Total Weight: <span id="totalWeight">0</span></h3>
+
+
+            </div>
+            <div id="selectsContainer">
+                <div id="materialContainer">
+                    <label for="material">Material:</label>
+                    <select id="material">
+                        <option value="none">Select</option>
+                    </select>
+                </div>
+                
+                <div id="fuelTypeContainer">
+                    <label for="fuelType">Fuel Type:</label>
+                    <select id="fuelType">
+                        <option value="none">Select</option>
+                    </select>
+                    <div class="slidecontainer">
+                        <input type="range" min="1" max="100" value="50" class="slider" id="fuelSlider">
+                        <input type="number" id="sliderValue" value="50" min="1" max="100">
+
+                      </div>               
+                     </div>
+            </div>
+            
+            <hr class="vertical-line"> <!-- Vertical line -->
+            
+            <div id="buttonsContainer">
+                <button id="launchButton">Launch</button>
+                <button id="resetButton">Reset</button>
+
+            </div>
+        </div>
+
+        <script src="scripts.js" type="module"></script>
+    </body>
+    
+</html>
