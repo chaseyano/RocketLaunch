@@ -260,7 +260,7 @@ this.buy = function(item) {
         this.statusText.position = new paper.Point(this.STATUS_TEXT_X, this.STATUS_TEXT_Y);
 
         // this.statusText.position = new paper.Point(this.canvas.width / 2, this.canvas.height / 2);
-        this.drawRocket(this.canvas.width / 2 - (this.ROCKET_WIDTH / 2) , this.canvas.height - this.ROCKET_HEIGHT); 
+        this.drawRocket(this.canvas.width / 4 - (this.ROCKET_WIDTH / 4), this.canvas.height / 4 - this.ROCKET_HEIGHT / 3); 
     }
 
     setIsLaunching() {
@@ -270,7 +270,7 @@ this.buy = function(item) {
         const startTime = new Date().getTime();
     
         // Start with the rocket at its initial position
-        this.drawRocket(this.canvas.width / 2 - (this.ROCKET_WIDTH / 2), startY);
+        this.drawRocket(this.canvas.width / 4 - (this.ROCKET_WIDTH / 4), startY);
         this.toggleShake(10); // Start the shake with a reasonable multiplier
     
         // Update the status text
@@ -287,7 +287,7 @@ this.buy = function(item) {
                     let currentY = startY + (endY - startY) * elapsedTime;
                     let shakeX = this.isShaking ? (Math.random() - 0.5) * this.shakeMultiplier : 0;
                     // Update the rocket's position with vertical and horizontal (shake) movement
-                    this.drawRocket(this.canvas.width / 2 - (this.ROCKET_WIDTH / 2) + shakeX, currentY);
+                    this.drawRocket(this.canvas.width / 4 - (this.ROCKET_WIDTH / 4) + shakeX, currentY);
                 } else {
                     // Stop the animation and transition to inFlight
                     this.isLaunchingAnimationPlaying = false;
@@ -308,8 +308,8 @@ this.buy = function(item) {
         this.isLaunchingAnimationPlaying = false;
         this.statusText.content = 'IN FLIGHT';
         this.statusText.position = new paper.Point(this.STATUS_TEXT_X, this.STATUS_TEXT_Y);
-        (this.canvas.width / 2, this.canvas.height - 150);
-        this.drawRocket(this.canvas.width / 2 - (this.ROCKET_WIDTH / 2) , this.canvas.height / 2 - this.ROCKET_HEIGHT); 
+        (this.canvas.width / 4, this.canvas.height - 150);
+        this.drawRocket(this.canvas.width / 4 - (this.ROCKET_WIDTH / 4) , this.canvas.height / 2 - this.ROCKET_HEIGHT); 
     }
 
     setWin() {
