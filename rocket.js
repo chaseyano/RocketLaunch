@@ -13,6 +13,8 @@ class Rocket {
     STATUS_TEXT_Y = 775;
 
 
+
+
     constructor(canvasId, material, fuelType) {
         this.rocketParts = []; // Array to hold references to rocket parts
 
@@ -28,6 +30,7 @@ class Rocket {
         this.inFlight = false;
         this.hasLaunched = false;
  
+        this.postLaunchHeight = -1;
 
 
         paper.setup(this.canvas);
@@ -38,6 +41,8 @@ class Rocket {
             size: [this.canvas.width, this.canvas.height],
             fillColor: 'blue'
         });
+
+        this.drawGround(0, 620)
         // Canvas stuff
         this.context.fillStyle = 'blue';
         this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
@@ -219,6 +224,30 @@ this.buy = function(item) {
     
         this.rocketParts.push(body, top, leftFin, rightFin);
     }
+
+    drawGround(x, y) {
+        // Assuming `this.canvas` refers to your Paper.js canvas object.
+        // If `this.canvas` is not the correct reference, adjust as needed.
+        
+        // First, check if the ground already exists and remove it to prevent duplicates.
+        // This step depends on how you track existing drawings. For simplicity, let's assume
+        // you have an array or similar structure to track these parts. If not, you might need
+        // to adapt this part of the code.
+        if (this.ground) {
+            this.ground.remove(); // Remove the existing ground from the canvas
+        }
+    
+        // Draw a new ground rectangle
+        this.ground = new paper.Path.Rectangle({
+            point: [x, y], // Starting point of the rectangle
+            size: [paper.view.viewSize.width, paper.view.viewSize.height / 2], // Width and height
+            fillColor: 'green' // Fill color of the rectangle
+        });
+        
+        // If you have a structure to keep track of the canvas elements, add the ground to it
+        // For example, if you have an array named `canvasElements`, you could do:
+        // this.canvasElements.push(this.ground);
+    }
     
     toggleShake(multiplier) {
         this.isShaking = !this.isShaking;
@@ -256,13 +285,13 @@ this.buy = function(item) {
         this.statusText.position = new paper.Point(this.STATUS_TEXT_X, this.STATUS_TEXT_Y);
 
         // this.statusText.position = new paper.Point(this.canvas.width / 2, this.canvas.height / 2);
-        this.drawRocket(this.canvas.width / 4 - (this.ROCKET_WIDTH / 4), this.canvas.height / 4 - this.ROCKET_HEIGHT / 3); 
+        this.drawRocket(this.canvas.width / 4 - (this.ROCKET_WIDTH / 4), this.canvas.height / 4); 
     }
 
     setIsLaunching() {
         // Store start and end positions
-        const startY = this.canvas.height / 4 - this.ROCKET_HEIGHT / 3;
-        const endY = 10;
+        const startY = this.canvas.height / 4;
+        const endY = 100;
         const startTime = new Date().getTime();
     
         // Start with the rocket at its initial position
@@ -278,16 +307,20 @@ this.buy = function(item) {
             if (this.isLaunchingAnimationPlaying) {
                 const currentTime = new Date().getTime();
                 const elapsedTime = (currentTime - startTime) / 1000; // Convert to seconds
-    
-                if (elapsedTime < 1) {
-                    let currentY = startY + (endY - startY) * elapsedTime;
+                let currentRocketY = startY + (endY - startY) * elapsedTime;
+                let currentGroundY = 620 + (1100 - 620) * elapsedTime;
+
+                if (currentRocketY > 100) {
+                    console.log(currentRocketY);
                     let shakeX = this.isShaking ? (Math.random() - 0.5) * this.shakeMultiplier : 0;
                     // Update the rocket's position with vertical and horizontal (shake) movement
-                    this.drawRocket(this.canvas.width / 4 - (this.ROCKET_WIDTH / 4) , currentY);
-                    // this.drawRocket(this.canvas.width / 4 - (this.ROCKET_WIDTH / 4), this.canvas.height / 4 - this.ROCKET_HEIGHT / 3); 
+                    this.drawGround(0, currentGroundY)
+                    this.drawRocket(this.canvas.width / 4 - (this.ROCKET_WIDTH / 4) , currentRocketY);
 
                 } else {
                     // Stop the animation and transition to inFlight
+                    this.drawRocket(this.canvas.width / 4 - (this.ROCKET_WIDTH / 4) , currentRocketY);
+                    this.postLaunchHeight = currentRocketY;
                     this.isLaunchingAnimationPlaying = false;
                     this.toggleShake(0); // Stop the shake
                     paper.view.onFrame = null; // Remove the onFrame event handler
@@ -299,31 +332,27 @@ this.buy = function(item) {
     
 
     setInFlight() {
-        
-        if (!this.isLaunchingAnimationPlaying) {
-            return; // Do not transition to inFlight if isLaunching animation is not playing
-        }
         this.isLaunchingAnimationPlaying = false;
         this.statusText.content = 'IN FLIGHT';
         this.statusText.position = new paper.Point(this.STATUS_TEXT_X, this.STATUS_TEXT_Y);
         (this.canvas.width / 4, this.canvas.height - 150);
-        this.drawRocket(this.canvas.width / 4 - (this.ROCKET_WIDTH / 4) , this.canvas.height / 2 - this.ROCKET_HEIGHT); 
+        this.drawRocket(this.canvas.width / 4 - (this.ROCKET_WIDTH / 4) , this.postLaunchHeight); 
     }
 
     setWin() {
-        this.clearRocket();
+        // this.clearRocket();
 
         this.statusText.content = 'WIN';
         this.statusText.position = new paper.Point(this.STATUS_TEXT_X, this.STATUS_TEXT_Y);
-        this.drawRectangle('gold'); // Gold rectangle for 'WIN'
+        // this.drawRectangle('gold'); // Gold rectangle for 'WIN'
     }
 
     setLoss() {
-        this.clearRocket();
+        // this.clearRocket();
 
         this.statusText.content = 'LOSS';
         this.statusText.position = new paper.Point(this.STATUS_TEXT_X, this.STATUS_TEXT_Y);
-        this.drawRectangle('red'); // Red rectangle for 'LOSS'
+        // this.drawRectangle('red'); // Red rectangle for 'LOSS'
     }
     launch() {
         if (!this.hasLaunched) {
