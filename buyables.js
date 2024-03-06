@@ -1,4 +1,5 @@
-export const budget = 5000;
+export const budget = 10000; 
+
 
 export const materialPrices = {
     titanium: 1000,   // Price per unit (in dollars)
