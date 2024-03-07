@@ -1,5 +1,5 @@
 import Stopwatch from "./stopwatch.js";
-import Cloud from "./cloud.js";
+
 class Rocket {
 
     // m /s, m, N, m/s^2
@@ -55,11 +55,9 @@ class Rocket {
         this.statusText.fillColor = 'black'; 
 
         this.animationState = this.ANIMATION_STATES[0];
-        let myCloud = new Cloud(0, 0, 1000, 5000, 2); // Example parameters
-        console.log(myCloud);
-        console.log(this.context);
 
-        myCloud.draw(this.context);
+
+
 
         this.rocketWeight = 0.0;
         if (material === "titanium") {
