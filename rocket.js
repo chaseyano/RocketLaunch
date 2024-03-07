@@ -17,6 +17,11 @@ class Rocket {
 
 
     constructor(canvasId, material, fuelType) {
+
+
+
+        this.clouds = [];
+
         this.rocketParts = []; // Array to hold references to rocket parts
 
 
@@ -46,6 +51,12 @@ class Rocket {
         this.drawGround(0, 620)
         this.drawLaunchpad();
         this.drawCloud(300, 0, 150, 100);
+
+
+        this.initializeClouds();
+        paper.view.onFrame = (event) => {
+            this.animateClouds();
+        };
         // Canvas stuff
         this.context.fillStyle = 'blue';
         this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
@@ -275,27 +286,39 @@ this.buy = function(item) {
         // For example, if you have an array named `canvasElements`, you could do:
         // this.canvasElements.push(this.ground);
     }
+    initializeClouds() {
+        for (let i = 0; i < 8; i++) { // Create 8 clouds
+            let x = Math.random() * this.canvas.width;
+            let y = Math.random() * this.canvas.height / 2; // Start in the upper half of the canvas
+            let width = 100 + Math.random() * 150; // Random width between 100 and 250
+            let height = 50 + Math.random() * 50; // Random height between 50 and 100
+            this.drawCloud(x, y, width, height);
+        }
+    }
     
     drawCloud(x, y, width, height) {
-        // Assuming `this.canvas` refers to your Paper.js canvas object.
-        // If `this.canvas` is not the correct reference, adjust as needed.
-        
-        // First, check if the ground already exists and remove it to prevent duplicates.
-        // This step depends on how you track existing drawings. For simplicity, let's assume
-        // you have an array or similar structure to track these parts. If not, you might need
-        // to adapt this part of the code.
- 
-    
-        // Draw a new ground rectangle
-        this.pad = new paper.Path.Ellipse({
+        let cloud = new paper.Path.Ellipse({
             point: [x, y], // Starting point of the rectangle
             size: [width , height], // Width and height
             fillColor: 'white' // Fill color of the rectangle
         });
+        this.clouds.push(cloud);
         
-        // If you have a structure to keep track of the canvas elements, add the ground to it
-        // For example, if you have an array named `canvasElements`, you could do:
-        // this.canvasElements.push(this.ground);
+    }
+    animateClouds() {
+        const resetThreshold = 600; // Y threshold for recycling clouds
+        const cloudSpeed = 2; // Speed of cloud movement
+        
+        this.clouds.forEach(cloud => {
+            cloud.position.y += cloudSpeed; // Move each cloud down
+            
+            // Check if the cloud has reached the reset threshold
+            if (cloud.position.y > resetThreshold) {
+                // Reset the cloud to the top with a new random X position and keep its size
+                cloud.position.x = Math.random() * this.canvas.width;
+                cloud.position.y = -cloud.bounds.height / 2; // Start just above the canvas
+            }
+        });
     }
 
     
@@ -354,7 +377,10 @@ this.buy = function(item) {
         this.isLaunchingAnimationPlaying = true;
     
         paper.view.onFrame = (event) => {
+
+
             if (this.isLaunchingAnimationPlaying) {
+
                 const currentTime = new Date().getTime();
                 const elapsedTime = (currentTime - startTime) / 1000; // Convert to seconds
                 let currentRocketY = startY + (endY - startY) * elapsedTime;
