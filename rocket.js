@@ -1,4 +1,5 @@
 import Stopwatch from "./stopwatch.js";
+import Cloud from "./cloud.js";
 class Rocket {
 
     // m /s, m, N, m/s^2
@@ -43,6 +44,8 @@ class Rocket {
         });
 
         this.drawGround(0, 620)
+        this.drawLaunchpad();
+        this.drawCloud(300, 0, 150, 100);
         // Canvas stuff
         this.context.fillStyle = 'blue';
         this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
@@ -52,6 +55,11 @@ class Rocket {
         this.statusText.fillColor = 'black'; 
 
         this.animationState = this.ANIMATION_STATES[0];
+        let myCloud = new Cloud(0, 0, 1000, 5000, 2); // Example parameters
+        console.log(myCloud);
+        console.log(this.context);
+
+        myCloud.draw(this.context);
 
         this.rocketWeight = 0.0;
         if (material === "titanium") {
@@ -136,7 +144,7 @@ this.buy = function(item) {
 
         this.setPreLaunch();
     }
- 
+
 
  
     animate() {
@@ -248,6 +256,50 @@ this.buy = function(item) {
         // For example, if you have an array named `canvasElements`, you could do:
         // this.canvasElements.push(this.ground);
     }
+    drawLaunchpad() {
+        // Assuming `this.canvas` refers to your Paper.js canvas object.
+        // If `this.canvas` is not the correct reference, adjust as needed.
+        
+        // First, check if the ground already exists and remove it to prevent duplicates.
+        // This step depends on how you track existing drawings. For simplicity, let's assume
+        // you have an array or similar structure to track these parts. If not, you might need
+        // to adapt this part of the code.
+ 
+    
+        // Draw a new ground rectangle
+        this.pad = new paper.Path.Ellipse({
+            point: [0, 620], // Starting point of the rectangle
+            size: [paper.view.viewSize.width, paper.view.viewSize.height / 2], // Width and height
+            fillColor: 'lightgrey' // Fill color of the rectangle
+        });
+        
+        // If you have a structure to keep track of the canvas elements, add the ground to it
+        // For example, if you have an array named `canvasElements`, you could do:
+        // this.canvasElements.push(this.ground);
+    }
+    
+    drawCloud(x, y, width, height) {
+        // Assuming `this.canvas` refers to your Paper.js canvas object.
+        // If `this.canvas` is not the correct reference, adjust as needed.
+        
+        // First, check if the ground already exists and remove it to prevent duplicates.
+        // This step depends on how you track existing drawings. For simplicity, let's assume
+        // you have an array or similar structure to track these parts. If not, you might need
+        // to adapt this part of the code.
+ 
+    
+        // Draw a new ground rectangle
+        this.pad = new paper.Path.Ellipse({
+            point: [x, y], // Starting point of the rectangle
+            size: [width , height], // Width and height
+            fillColor: 'white' // Fill color of the rectangle
+        });
+        
+        // If you have a structure to keep track of the canvas elements, add the ground to it
+        // For example, if you have an array named `canvasElements`, you could do:
+        // this.canvasElements.push(this.ground);
+    }
+
     
     toggleShake(multiplier) {
         this.isShaking = !this.isShaking;
