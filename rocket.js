@@ -311,7 +311,7 @@ this.buy = function(item) {
                 let currentGroundY = 620 + (1100 - 620) * elapsedTime;
 
                 if (currentRocketY > 100) {
-                    console.log(currentRocketY);
+                    console.log(">100" + currentRocketY);
                     let shakeX = this.isShaking ? (Math.random() - 0.5) * this.shakeMultiplier : 0;
                     // Update the rocket's position with vertical and horizontal (shake) movement
                     this.drawGround(0, currentGroundY)
@@ -319,6 +319,8 @@ this.buy = function(item) {
 
                 } else {
                     // Stop the animation and transition to inFlight
+                    console.log("TO INFLIGHT: " + currentRocketY);
+
                     this.drawRocket(this.canvas.width / 4 - (this.ROCKET_WIDTH / 4) , currentRocketY);
                     this.postLaunchHeight = currentRocketY;
                     this.isLaunchingAnimationPlaying = false;
@@ -336,6 +338,8 @@ this.buy = function(item) {
         this.statusText.content = 'IN FLIGHT';
         this.statusText.position = new paper.Point(this.STATUS_TEXT_X, this.STATUS_TEXT_Y);
         (this.canvas.width / 4, this.canvas.height - 150);
+        console.log("In flight: " + this.postLaunchHeight);
+
         this.drawRocket(this.canvas.width / 4 - (this.ROCKET_WIDTH / 4) , this.postLaunchHeight); 
     }
 
@@ -361,9 +365,6 @@ this.buy = function(item) {
             launchButton.style.backgroundColor = 'gray';
             this.hasLaunched = true;
             this.setIsLaunching();
-            setTimeout(() => {
-                this.isLaunchingCallback();
-            }, 1000); // Delay the isLaunchingCallback by 1 second (1000 milliseconds)
             this.startAnimation();
         }
     }
