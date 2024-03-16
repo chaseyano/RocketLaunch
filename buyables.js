@@ -16,3 +16,32 @@ export const fuelPrices = {
     helium3: 2000,    // Price per unit (in dollars)
     rp1: 1.5         // Price per unit (in dollars)
 };
+
+
+const materials = {
+    "Titanium": { "Weight": 1/10, "Cost": 10/10 },
+    "Silica": { "Weight": 3/10, "Cost": 5/10 },
+    "Aluminium": { "Weight": 6/10, "Cost": 5/10 },
+    "Carbon": { "Weight": 4/10, "Cost": 4/10 },
+    "Steel": { "Weight": 9/10, "Cost": 2/10 }
+  };
+  
+  const fuels = {
+    "Hydrogen": { "Weight": 1/10, "Cost": 8/10, "Force": 9/10 },
+    "Methane": { "Weight": 4/10, "Cost": 6/10, "Force": 5/10 },
+    "Kerosene": { "Weight": 6/10, "Cost": 3/10, "Force": 5/10 },
+    "Helium3": { "Weight": 5.10, "Cost": 5/10, "Force": 6/10 },
+    "rp1": { "Weight": 8, "Cost": 2, "Force": 9/10 }
+  };
+  
+  function evaluatePair(material, fuel) {
+    if (!materials[material] || !fuels[fuel]) {
+      return "Invalid material or fuel";
+    }
+    
+    const totalWeight = materials[material].Weight + fuels[fuel].Weight;
+    const totalCost = materials[material].Cost + fuels[fuel].Cost;
+    const force = fuels[fuel].Force; // Force is only relevant for fuels
+  
+    return { "TotalWeight": totalWeight, "TotalCost": totalCost, "Force": force };
+  }
