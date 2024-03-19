@@ -297,14 +297,28 @@ this.buy = function(item) {
     }
     
     drawCloud(x, y, width, height) {
-        let cloud = new paper.Path.Ellipse({
-            point: [x, y], // Starting point of the rectangle
-            size: [width , height], // Width and height
-            fillColor: 'white' // Fill color of the rectangle
-        });
+        let cloudParts = 5; // Number of ellipses to make the cloud fluffy
+        let cloud = new paper.Group(); // Group to hold all parts of the cloud
+    
+        for(let i = 0; i < cloudParts; i++) {
+            let partWidth = width * (Math.random() * 0.5 + 0.75); // Random width for each part
+            let partHeight = height * (Math.random() * 0.5 + 0.75); // Random height for each part
+            let partX = x + Math.random() * width - partWidth / 2; // Random x position for each part
+            let partY = y + Math.random() * height - partHeight / 2; // Random y position for each part
+    
+            let part = new paper.Path.Ellipse({
+                point: [partX, partY],
+                size: [partWidth, partHeight],
+                fillColor: 'white'
+            });
+    
+            cloud.addChild(part); // Add the part to the cloud group
+        }
+    
         this.clouds.push(cloud);
-        
+
     }
+    
     animateClouds() {
         const resetThreshold = 600; // Y threshold for recycling clouds
         const cloudSpeed = 2; // Speed of cloud movement
