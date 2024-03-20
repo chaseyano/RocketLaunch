@@ -3,14 +3,15 @@ import { budget, materialPrices, fuelPrices } from './buyables.js';
 var money = budget;
 console.log(materialPrices['steel'
 ]);
-document.addEventListener('DOMContentLoaded', () => {
-    // This code will run once the DOM is fully loaded
+document.addEventListener('DOMContentLoaded', () => { // This code will run once the DOM is fully loaded
+ const myRocket = new Rocket('myCanvas', 'titanium', 'hydrogen');  
+ 
     function resizeCanvas() {
         const canvasElement = document.getElementById('myCanvas');
 
         canvasElement.width = window.innerWidth / 2;
         canvasElement.height = window.innerHeight - 50; // leaving 50px gap at the bottom for UI elements
-        const myRocket = new Rocket('myCanvas', 'titanium', 'hydrogen');
+        
     }
 
     // Initial resize
@@ -26,7 +27,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const fuelSelect = document.getElementById('fuelType');
             const material = 'steel';
             const fuel = fuelSelect.value;
-            const myRocket = new Rocket('myCanvas', material, fuel); 
+          //  const myRocket = new Rocket('myCanvas', material, fuel); 
+          console.log("rocket has been launched")
             myRocket.launch();
         } else {showModal("Negative budget or not all selected.")}
     });

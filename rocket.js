@@ -35,6 +35,7 @@ class Rocket {
         this.direction = 1; // -1 for up, 1 for down
         this.inFlight = false;
         this.hasLaunched = false;
+        this.cloudsMoving = false;
  
         this.postLaunchHeight = -1;
 
@@ -54,9 +55,7 @@ class Rocket {
 
 
         this.initializeClouds();
-        paper.view.onFrame = (event) => {
-            this.animateClouds();
-        };
+        
         // Canvas stuff
         this.context.fillStyle = 'blue';
         this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
@@ -185,10 +184,18 @@ this.buy = function(item) {
  
     startAnimation() {
         if (!this.inFlight) {
-
+            console.log("startanimation: ")
             this.inFlight = true;
+            this.cloudsMoving = true;
+            console.log("set cloudsmoving", this.cloudsMoving)
             this.animate();
+
         }
+   if( this.inFlight) {
+    paper.view.onFrame = (event) => {
+        this.animateClouds();
+    };
+   }
     }
  
 
@@ -322,7 +329,7 @@ this.buy = function(item) {
     animateClouds() {
         const resetThreshold = 600; // Y threshold for recycling clouds
         const cloudSpeed = 2; // Speed of cloud movement
-        
+       console.log("this.cloudsmoving:", this.cloudsMoving) 
         this.clouds.forEach(cloud => {
             cloud.position.y += cloudSpeed; // Move each cloud down
             
@@ -332,7 +339,7 @@ this.buy = function(item) {
                 cloud.position.x = Math.random() * this.canvas.width;
                 cloud.position.y = -cloud.bounds.height / 2; // Start just above the canvas
             }
-        });
+        }); 
     }
 
     
