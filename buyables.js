@@ -36,15 +36,12 @@ const materials = {
   
   export function evaluatePair(material, fuel) {
     let pair = new Set([material.toLowerCase(), fuel.toLowerCase()]);
-        console.log(material);
-    console.log(fuel);
     for (let winningPair of winningSets) {
-
-      return eqSet(pair, winningPair)
+      
+      if (eqSet(pair, winningPair))
+        return true;
     }
-    // console.log(material);
-    // console.log(fuel);
-    // console.log(evaluation);
+    return false;
   }
 
 
