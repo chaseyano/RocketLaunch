@@ -3,9 +3,10 @@ import { budget, materialPrices, fuelPrices } from './buyables.js';
 var money = budget;
 console.log(materialPrices['steel'
 ]);
+
 document.addEventListener('DOMContentLoaded', () => { // This code will run once the DOM is fully loaded
- const myRocket = new Rocket('myCanvas', 'titanium', 'hydrogen');  
- 
+    var myRocket = new Rocket('myCanvas', 'titanium', 'hydrogen');  
+
     function resizeCanvas() {
         const canvasElement = document.getElementById('myCanvas');
 
@@ -25,8 +26,10 @@ document.addEventListener('DOMContentLoaded', () => { // This code will run once
         if (getUpdatedBudget() >= 0 && areAllSelected()) {
             const materialSelect = document.getElementById('material');
             const fuelSelect = document.getElementById('fuelType');
-            const material = 'steel';
+            const material = materialSelect.value;
             const fuel = fuelSelect.value;
+            myRocket.setFuel(fuel);
+            myRocket.setMaterial(material);
           //  const myRocket = new Rocket('myCanvas', material, fuel); 
           console.log("rocket has been launched")
             myRocket.launch();

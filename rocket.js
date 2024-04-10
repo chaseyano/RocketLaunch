@@ -1,4 +1,5 @@
 import Stopwatch from "./stopwatch.js";
+import { evaluatePair } from "./buyables.js";
 
 class Rocket {
 
@@ -18,7 +19,8 @@ class Rocket {
 
     constructor(canvasId, material, fuelType) {
 
-
+        this.material = material;
+        this.fuel = fuelType;
 
         this.clouds = [];
 
@@ -154,6 +156,13 @@ this.buy = function(item) {
     }
 
 
+    setFuel(fuel) {
+        this.fuel = fuel;
+    }
+
+    setMaterial(material) {
+        this.material = material;
+    }
  
     animate() {
         this.checkIfWon();
@@ -170,11 +179,8 @@ this.buy = function(item) {
 
         this.loseWeight();
         if (this.distance >= 0) {
-            console.log("position is above ground");
-            console.log("A rocket shape position y -> " + String(this.distance) );
-            console.log("this speed = " + String(this.speed));
+
             this.distance += this.speed; // Move the rocket vertically
-            console.log("B rocket shape position y -> " + String(this.distance) );
 
         }
         this.animationFrameId = requestAnimationFrame(this.animate.bind(this)); // Store the request ID
@@ -184,10 +190,10 @@ this.buy = function(item) {
  
     startAnimation() {
         if (!this.inFlight) {
-            console.log("startanimation: ")
+
             this.inFlight = true;
             this.cloudsMoving = true;
-            console.log("set cloudsmoving", this.cloudsMoving)
+
             this.animate();
 
         }
@@ -329,7 +335,7 @@ this.buy = function(item) {
     animateClouds() {
         const resetThreshold = 600; // Y threshold for recycling clouds
         const cloudSpeed = 2; // Speed of cloud movement
-       console.log("this.cloudsmoving:", this.cloudsMoving) 
+
         this.clouds.forEach(cloud => {
             cloud.position.y += cloudSpeed; // Move each cloud down
             
@@ -435,7 +441,6 @@ this.buy = function(item) {
         this.statusText.content = 'IN FLIGHT';
         this.statusText.position = new paper.Point(this.STATUS_TEXT_X, this.STATUS_TEXT_Y);
         (this.canvas.width / 4, this.canvas.height - 150);
-        console.log("In flight: " + this.postLaunchHeight);
 
         this.drawRocket(this.canvas.width / 4 - (this.ROCKET_WIDTH / 4) , this.postLaunchHeight); 
     }
@@ -481,10 +486,9 @@ this.buy = function(item) {
     }
 
     calculateAcceleration() {
-        console.log('get new acc');
+
 
         if (this.fuelWeight >= 0) {
-            console.log('accel we calculate = ' + String((this.force + this.getGravityForce()) / (this.rocketWeight + this.fuelWeight)));
             return (this.force + this.getGravityForce()) / (this.rocketWeight + this.fuelWeight);
         } else {
             return this.getGravityForce() / (this.rocketWeight);
@@ -492,7 +496,7 @@ this.buy = function(item) {
     }
  
     updateSpeedLabel() {
-        console.log('before get speed, init speed = ' + String(this.speed));
+
         this.speed += this.calculateAcceleration();
         this.speed += this.calculateAcceleration();
         this.speedText.content = 'Speed: ' + Math.round(this.speed);
@@ -503,6 +507,21 @@ this.buy = function(item) {
     }
 
     checkIfWon() {
+
+
+        if (this.watch.elapsedTime > 3000) {
+            let didWin = evaluatePair(this.material, this.fuel);
+            // console.log(this.material);
+            // console.log(this.fuel);
+            
+            if (didWin) {
+                this.setWin();
+                this.stopSimulation();
+            } else {
+                this.setLoss();
+                this.stopSimulation();
+            }
+        }
         if (this.isLaunchingAnimationPlaying) {
             setTimeout(() => this.checkIfWon(), 100); // Check again after a short delay
             return;

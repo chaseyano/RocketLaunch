@@ -34,14 +34,27 @@ const materials = {
     "rp1": { "Weight": 8, "Cost": 2, "Force": 9/10 }
   };
   
-  function evaluatePair(material, fuel) {
-    if (!materials[material] || !fuels[fuel]) {
-      return "Invalid material or fuel";
+  export function evaluatePair(material, fuel) {
+    let pair = new Set([material.toLowerCase(), fuel.toLowerCase()]);
+        console.log(material);
+    console.log(fuel);
+    for (let winningPair of winningSets) {
+
+      return eqSet(pair, winningPair)
     }
-    
-    const totalWeight = materials[material].Weight + fuels[fuel].Weight;
-    const totalCost = materials[material].Cost + fuels[fuel].Cost;
-    const force = fuels[fuel].Force; // Force is only relevant for fuels
-  
-    return { "TotalWeight": totalWeight, "TotalCost": totalCost, "Force": force };
+    // console.log(material);
+    // console.log(fuel);
+    // console.log(evaluation);
   }
+
+
+
+  const winningSets = [
+    new Set(["titanium", "hydrogen"]),
+    new Set(["titanium", "methane"]),
+
+  ];
+
+  const eqSet = (xs, ys) =>
+    xs.size === ys.size &&
+    [...xs].every((x) => ys.has(x));
