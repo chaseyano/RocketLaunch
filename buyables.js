@@ -52,6 +52,15 @@ const materials = {
 
   ];
 
-  const eqSet = (xs, ys) =>
-    xs.size === ys.size &&
-    [...xs].every((x) => ys.has(x));
+  function eqSet(setA, setB) {
+    if (setA.size !== setB.size) {
+      return false;
+    }
+
+    for (let element of setA) {
+      if (!setB.has(element)) {
+        return false;
+      };
+    }
+    return true;
+  }
